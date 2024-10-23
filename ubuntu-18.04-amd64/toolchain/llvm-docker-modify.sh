@@ -4,10 +4,10 @@
 # find . -type l ! -exec test -e {} \; -print
 
 LLVM_ROOT_PATH=/usr/lib/llvm-18
-LLVM_LIB_PATH=lib
+LLVM_LIB_PATH=lib/x86_64-linux-gnu
 LIBC_VERSION=2.27
 
-#mkdir $LLVM_ROOT_PATH/lib/x86_64-linux-gnu
+mkdir $LLVM_ROOT_PATH/$LLVM_LIB_PATH
 # Take all dependencies with help of below command (you are interested in line starts with 'calling fini:')
 # LD_DEBUG=libs ./clang --version
 
@@ -115,9 +115,11 @@ ln -s ./libffi.so.*.* ./libffi.so
 
 # libedit.so.2.0.56
 ln -s ./libedit.so.*.* ./libedit.so.2
+ln -s ./libedit.so.*.* ./libedit.so           # fix: rules_cc_toolchain requires *.so lib
 
 # libtinfo.so.5.9
 ln -s ./libtinfo.so.*.* ./libtinfo.so.5
+ln -s ./libtinfo.so.*.* ./libtinfo.so           # fix: rules_cc_toolchain requires *.so lib
 
 # libxml2.so.2.9.4
 ln -s ./libxml2.so.*.* ./libxml2.so.2
@@ -125,6 +127,7 @@ ln -s ./libxml2.so.*.* ./libxml2.so
 
 # libz.so.1.2.11
 ln -s ./libz.so.*.* ./libz.so.1
+ln -s ./libz.so.*.* ./libz.so          # fix: rules_cc_toolchain requires *.so lib
 
 # libicuuc.so.60.2
 ln -s ./libicuuc.so.*.* ./libicuuc.so.60
@@ -136,6 +139,7 @@ ln -s ./libicudata.so.*.* ./libicudata.so.60
 
 # libstdc++.so.6.0.25
 ln -s ./libstdc++.so.*.* ./libstdc++.so.6
+ln -s ./libstdc++.so.*.* ./libstdc++.so
 
 # liblzma.so.5.2.2
 ln -s ./liblzma.so.*.* ./liblzma.so.5
@@ -145,7 +149,7 @@ ln -s ./liblzma.so.*.* ./liblzma.so
 ln -s ./libc-$LIBC_VERSION.so ./libc.so.6
 
 # libdl-2.27.so
-ln -s ./libdl-2.27.so ./libdl.so.2
+ln -s ./libdl-$LIBC_VERSION.so ./libdl.so.2
 
 # libcrypt-2.27.so
 ln -s ./libcrypt-$LIBC_VERSION.so ./libcrypt.so.1
