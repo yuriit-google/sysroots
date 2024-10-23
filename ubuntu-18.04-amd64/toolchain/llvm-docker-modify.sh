@@ -1,5 +1,8 @@
 !#/bin/bash
 
+# Useful command for finding broken links:
+# find . -type l ! -exec test -e {} \; -print
+
 LLVM_ROOT_PATH=/usr/lib/llvm-18
 LLVM_LIB_PATH=lib
 LIBC_VERSION=2.27
@@ -86,17 +89,22 @@ rm $LLVM_ROOT_PATH/lib/libclang-18.so.1
 rm $LLVM_ROOT_PATH/lib/libclang-18.so.18
 rm $LLVM_ROOT_PATH/lib/libclang.so.1
 rm $LLVM_ROOT_PATH/lib/liblldb.so.1
+rm $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/libLLVM-18.1.0.so.1
+rm $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/libLLVM-18.so.1
+rm $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/_lldb.so
 
 cp /usr/lib/x86_64-linux-gnu/libLLVM-18.so.1 $LLVM_ROOT_PATH/lib/
 cp /usr/lib/x86_64-linux-gnu/libclang-18.so.18 $LLVM_ROOT_PATH/lib/
 cp /usr/lib/x86_64-linux-gnu/liblldb-18.so.1 $LLVM_ROOT_PATH/lib/
 
-# Fix error:
-# invalid symlink "/usr/local/google/home/.../Projects/sysroot/archive/llvm-18/include/llvm" -> "../../../include/llvm-18/llvm"
+# Fix: invalid symlink "/usr/local/google/home/.../Projects/sysroot/archive/llvm-18/include/llvm" -> "../../../include/llvm-18/llvm"
 rm $LLVM_ROOT_PATH/include/llvm
 rm $LLVM_ROOT_PATH/include/llvm-c
 cp -r /usr/include/llvm-18/llvm $LLVM_ROOT_PATH/include/
 cp -r /usr/include/llvm-c-18/llvm-c $LLVM_ROOT_PATH/include/
+
+# Fix: infinite symlink expansion detected
+rm -rf $LLVM_ROOT_PATH/build
 
 #####################################################################################################################
 
@@ -160,6 +168,11 @@ ln -s ./libLLVM-18.so ./libLLVM.so
 ln -s ./libclang-18.so.18 ./libclang-18.so.1
 ln -s ./libclang-18.so.18 ./libclang.so.1
 ln -s ./liblldb-18.so.1 ./liblldb.so.1
+
+cd $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/
+ln -s ../../../libLLVM-18.1.0.so.1 $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/libLLVM-18.1.0.so.1
+ln -s ../../../libLLVM-18.so.1 $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/libLLVM-18.so.1
+ln -s ../../../liblldb-18.so.1 $LLVM_ROOT_PATH/lib/python3/dist-packages/lldb/_lldb.so
 
 # Copy LLVM directory
 # docker cp my-container:/usr/lib/llvm-18 .
