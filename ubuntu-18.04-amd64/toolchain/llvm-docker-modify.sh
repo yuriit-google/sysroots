@@ -17,11 +17,11 @@ cp /usr/lib/x86_64-linux-gnu/libffi.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH
 #ln -s $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libffi.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libffi.so
 
 # libedit.so.2.0.56
-cp /usr/lib/x86_64-linux-gnu/libedit.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH
+cp /usr/lib/x86_64-linux-gnu/libedit.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH             # libedit.so.2?
 #ln -s $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libedit.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libedit.so.2
 
 # libtinfo.so.5.9
-cp /lib/x86_64-linux-gnu/libtinfo.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH
+cp /lib/x86_64-linux-gnu/libtinfo.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH                # libtinfo.so.5?
 #ln -s $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libtinfo.so.*.* $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libtinfo.so.5
 
 # libxml2.so.2.9.4
@@ -78,6 +78,13 @@ cp /lib/x86_64-linux-gnu/libm-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH
 # libpthread-2.27.so
 cp /lib/x86_64-linux-gnu/libpthread-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH
 #ln -s $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libpthread-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libpthread.so.0
+
+# libpthread-2.27.so
+cp /lib/x86_64-linux-gnu/libpthread-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH
+#ln -s $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libpthread-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH/libpthread.so.0
+
+# libpthread-2.27.so
+cp /lib/x86_64-linux-gnu/ld-$LIBC_VERSION.so $LLVM_ROOT_PATH/$LLVM_LIB_PATH
 
 rm $LLVM_ROOT_PATH/lib/libLLVM.so
 rm $LLVM_ROOT_PATH/lib/libLLVM-18.so
@@ -162,6 +169,9 @@ ln -s ./libm-$LIBC_VERSION.so ./libm.so.6
 
 # libpthread-2.27.so
 ln -s ./libpthread-$LIBC_VERSION.so ./libpthread.so.0
+
+# ld-2.27.so
+ln -s ld-$LIBC_VERSION.so ./ld-linux-x86-64.so.2
 
 cd $LLVM_ROOT_PATH/lib
 ln -s ./libLLVM-18.so.1 ./libLLVM-18.so
